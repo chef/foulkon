@@ -1,0 +1,8 @@
+[postgres]
+host = "postgres"
+port = 5432
+username = "foulkon"
+password = "foulkon"
+dbname = "foulkon"
+superuser_name = "automate"
+superuser_password = "pokemon"

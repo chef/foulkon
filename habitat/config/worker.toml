@@ -1,0 +1,21 @@
+## TODO: make this dynamic, `toToml cfg` etc
+[server]
+host = "0.0.0.0"
+port = "8000"
+
+[admin]
+username = "admin"
+password = "admin"
+
+[database]
+type = "postgres"
+
+[database.postgres]
+{{#with cfg.postgres}}
+datasourcename = "postgres://{{username}}:{{password}}@{{host}}:{{port}}/{{dbname}}?sslmode=disable"
+{{/with}}
+
+[authenticator]
+type = "header"
+[authenticator.header]
+name = "X-Automate-User"

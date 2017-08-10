@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# TODO: is this where we'd decide if this is a worker or a proxy?
+exec 2>&1
+exec worker -config-file {{pkg.svc_config_path}}/worker.toml
