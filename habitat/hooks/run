@@ -1,5 +1,9 @@
 #!/bin/sh
 
-# TODO: is this where we'd decide if this is a worker or a proxy?
 exec 2>&1
+{{~#if cfg.proxy}}
+exec proxy -proxy-file {{pkg.svc_config_path}}/proxy.toml
+{{~/if}}
+{{~#unless cfg.proxy}}
 exec worker -config-file {{pkg.svc_config_path}}/worker.toml
+{{~/unless}}

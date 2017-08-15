@@ -1,3 +1,5 @@
+proxy = false
+
 [postgres]
 host = "postgres"
 port = 5432
