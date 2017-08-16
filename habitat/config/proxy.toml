@@ -1,0 +1,12 @@
+[server]
+host = "0.0.0.0"
+port = "8000"
+worker-host = "{{cfg.worker-host}}"
+
+[database]
+type = "postgres"
+
+[database.postgres]
+{{#with cfg.postgres}}
+datasourcename = "postgres://{{username}}:{{password}}@{{host}}:{{port}}/{{dbname}}?sslmode=disable"
+{{/with}}

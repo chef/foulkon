@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -e
+exec 2>&1
+
+{{~#if cfg.proxy}}
+exit 0
+{{~/if}}
+
+curl="curl -v -u admin:admin"
+prefix=http://127.0.0.1:8000/api/v1
+
+# if this returns 401, we're ready
+until $(curl -s -o /dev/null -w "%{http_code}\n" $prefix | grep -q 401); do
+  echo "waiting for service..."
+    sleep 1
+done
+
+# super-simple initial bootstrap
+$curl $prefix/users -d '{"externalId": "x-automate-authn", "path": "/services/"}'
+$curl $prefix/organizations/automate/groups -d '{"name": "services", "path": "/services/"}'
+$curl $prefix/organizations/automate/groups/services/users/x-automate-authn -XPOST
+$curl $prefix/organizations/automate/policies -d '{"name": "admin_users", "path": "/services/", "statements": [{"effect":"allow", "actions":["iam:CreateUser", "iam:GetUser", "iam:ListGroupsForUser"], "resources":["urn:iws:iam::user/*"]}] }'
+$curl $prefix/organizations/automate/groups/services/policies/admin_users -X POST
+
