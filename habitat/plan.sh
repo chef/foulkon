@@ -12,6 +12,9 @@ pkg_deps=(
   core/postgresql # for psql in hooks/init
   core/curl # for bootstrapping in hooks/init
 )
+pkg_binds_optional=(
+  [service]="service_name"
+)
 pkg_scaffolding=afiune/scaffolding-go
 scaffolding_go_base_path=github.com/Tecsisa
 scaffolding_go_build_deps=(

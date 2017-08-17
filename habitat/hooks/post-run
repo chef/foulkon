@@ -7,7 +7,7 @@ exec 2>&1
 exit 0
 {{~/if}}
 
-curl="curl -v -u admin:admin"
+curl="curl -u admin:admin"
 prefix=http://127.0.0.1:8000/api/v1
 
 # if this returns 401, we're ready
@@ -17,9 +17,19 @@ until $(curl -s -o /dev/null -w "%{http_code}\n" $prefix | grep -q 401); do
 done
 
 # super-simple initial bootstrap
-$curl $prefix/users -d '{"externalId": "x-automate-authn", "path": "/services/"}'
+# - create service group
+# - allow members of that group to mess with users
 $curl $prefix/organizations/automate/groups -d '{"name": "services", "path": "/services/"}'
-$curl $prefix/organizations/automate/groups/services/users/x-automate-authn -XPOST
 $curl $prefix/organizations/automate/policies -d '{"name": "admin_users", "path": "/services/", "statements": [{"effect":"allow", "actions":["iam:CreateUser", "iam:GetUser", "iam:ListGroupsForUser"], "resources":["urn:iws:iam::user/*"]}] }'
 $curl $prefix/organizations/automate/groups/services/policies/admin_users -X POST
 
+# create service users, add them to services group
+{{#each bind.service.members as |member|}}
+{{#if member.cfg.service_name}}
+service={{member.cfg.service_name}}
+echo "creating service user $service"
+
+$curl $prefix/users -d "{\"externalId\": \"$service\", \"path\": \"/services/\"}"
+$curl $prefix/organizations/automate/groups/services/users/$service -XPOST
+{{/if}}
+{{/each}}
