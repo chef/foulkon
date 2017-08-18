@@ -8,3 +8,47 @@ password = "foulkon"
 dbname = "foulkon"
 superuser_name = "automate"
 superuser_password = "pokemon"
+
+## example TOML for bootstrapping resources via hook[post-run]:
+## Note: see chef/a2's bootstrap/foulkon-worker.sh for acutal bootstrap data
+# [[users]]
+# externalId = "x-automate-authn"
+# path = "/services/"
+#
+# [[users]]
+# externalId = "admin"
+# path = "/users/mock/"
+#
+# [[organizations]]
+# name = "automate2"
+#
+#   [[organizations.groups]]
+#   name = "services"
+#   path = "/services/"
+#
+#   [[organizations.group_members]]
+#   group = "services"
+#   user = "x-automate-authn"
+#
+#   [[organizations.policies]]
+#   name = "admin_users"
+#   path = "/services/"
+#       [[organizations.policies.statements]]
+#       effect = "allow"
+#       actions = ["iam:CreateUser", "iam:GetUser", "iam:ListGroupsForUser"]
+#       resources = ["urn:iws:iam::user/*"]
+#
+#   [[organizations.group_policies]]
+#   group = "services"
+#   policy = "admin_users"
+#
+#   [[organizations.proxy_resources]]
+#   name = "example"
+#   path = "/example/"
+#
+#     [organizations.proxy_resources.resource]
+#     host = "http://traefik:81"
+#     path = "/resource"
+#     method = "GET"
+#     urn = "urn:examplews:application:v1:resource/get"
+#     action = "example:get"
