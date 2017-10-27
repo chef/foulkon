@@ -25,6 +25,8 @@ func (u *users) AddUser(ctx context.Context, req *AddUserReq) (*User, error) {
 	if !ok {
 		return nil, status.Errorf(codes.Unauthenticated, api.AUTHENTICATION_API_ERROR)
 	}
+	// For manual testing purposes, comment out the call above and comment in the line below
+	// reqInfo := &api.RequestInfo{Admin: true}
 	user, err := u.api.AddUser(*reqInfo, req.ExternalId, req.Path)
 	if err, ok := err.(*api.Error); ok {
 		api.LogOperationError(reqInfo.RequestID, reqInfo.Identifier, err)
