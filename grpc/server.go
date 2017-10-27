@@ -48,6 +48,9 @@ func (gs *Server) Run() error {
 	// Register reflection service (to lookup exposed services)
 	reflection.Register(gs.s)
 
+	// register our services
+	RegisterUserServiceServer(gs.s, newUsersService(gs.userAPI))
+
 	lis, err := net.Listen("tcp", gs.addr)
 	if err != nil {
 		return fmt.Errorf("listen on %s failed: %s", gs.addr, err)
