@@ -1,3 +1,11 @@
+## Archived 3rd-Party Fork
+
+This repository is an archived copy of a 3rd-party open-source project that Progress Chef contributed to.
+
+It was archived as part of the [Repository Standardization Initiative](https://github.com/chef-boneyard/oss-repo-standardization-2025).
+
+----
+
 # Foulkon
 [![Build Status](https://travis-ci.org/Tecsisa/foulkon.svg?branch=master)](https://travis-ci.org/Tecsisa/foulkon)
 [![Join the chat at https://gitter.im/Tecsisa/foulkon](https://badges.gitter.im/Tecsisa/foulkon.svg)](https://gitter.im/Tecsisa/foulkon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
